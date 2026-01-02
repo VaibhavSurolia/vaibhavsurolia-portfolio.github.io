@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaibhav Surolia - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; 
+            color: #f3f4f6; 
+        }
+        
+        #background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: #111827;
+        }
+
+        .img-flip :hover{
+            transform: rotateY(360deg);
+            transition: transform 0.6s;
+        }
+
+        .orb {
+            position: absolute;
+            display: block;
+            list-style: none;
+            border-radius: 50%;
+            background: #ef4444;
+            box-shadow: 0 0 20px #ef4444, 0 0 40px #ef4444, 0 0 60px #ef4444;
+            animation: rise 25s infinite linear;
+            bottom: -200px;
+            filter: blur(5px);
+            opacity: 0.7;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+        
+        .orb:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .orb:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .orb:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .orb:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+        .orb:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+        .orb:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; filter: blur(10px); }
+        .orb:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; filter: blur(15px); }
+        .orb:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        .orb:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+        .orb:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; filter: blur(10px);}
+
+
+        /* Define the accent color */
+        .accent-color {
+            color: #ef4444; /* Red */
+        }
+
+        .bg-accent {
+            background-color: #ef4444;
+        }
+
+        .border-accent {
+            border-color: #ef4444;
+        }
+
+        /* Typing cursor animation */
+        .typed-cursor {
+            opacity: 1;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        /* Scroll Animation styles */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(to right, #ef4444, #f87171);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #ef4444;
+            transition: width .3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Spinner Animation */
+        .spinner {
+            border-top-color: #ef4444;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body class="bg-transparent text-gray-100">
+
+    <!-- Animated Background -->
+    <div id="background-animation">
+        <span class="orb"></span>
+        <span class="orb"></span>
+        <span class="orb"></span>
+        <span class="orb"></span>
+        <span class="orb"></span>
+        <span class="orb"></span>
+        <span class="orb"></span>
+        <span class="orb"></span>
+        <span class="orb"></span>
+        <span class="orb"></span>
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-gray-900 bg-opacity-80 backdrop-blur-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold gradient-text">VS.</a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link text-lg hover:text-red-500 transition duration-300">About</a>
+                <a href="#skills" class="nav-link text-lg hover:text-red-500 transition duration-300">Skills</a>
+                <a href="#projects" class="nav-link text-lg hover:text-red-500 transition duration-300">Projects</a>
+                <a href="#contact" class="nav-link text-lg hover:text-red-500 transition duration-300">Contact</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-2xl z-50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden absolute top-0 left-0 w-full h-screen bg-gray-900 flex flex-col items-center justify-center space-y-8">
+            <a href="#about" class="mobile-nav-link text-2xl">About</a>
+            <a href="#skills" class="mobile-nav-link text-2xl">Skills</a>
+            <a href="#projects" class="mobile-nav-link text-2xl">Projects</a>
+            <a href="#contact" class="mobile-nav-link text-2xl">Contact</a>
+        </div>
+    </header>
+
+    <main>
+      
+        <section id="home" class="h-screen flex items-center bg-gray-900/30">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+               
+                <div class="text-center md:text-left">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-4 leading-tight">
+                        Hi, I'm <span class="gradient-text">Vaibhav Surolia.</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl font-light">
+                        I build <span id="typed-text" class="font-bold"></span><span class="typed-cursor accent-color">|</span>
+                    </p>
+                    <a href="#projects" class="mt-8 inline-block bg-red-600 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-red-700 transition duration-300 transform hover:scale-105">
+                        View My Work
+                    </a>
+                    <p class="mt-6 text-sm text-gray-400">
+                        In a hurry? <a href="#" id="hero-ai-btn" class="text-red-400 hover:text-red-500 underline font-semibold transition duration-300">Let our AI summarize this portfolio for you!</a>
+                    </p>
+                </div>
+               
+                <div class="hidden md:flex justify-center items-center">
+                    <div class="relative w-80 h-80 lg:w-96 lg:h-96 animate-float img-flip">
+                         <div class="absolute inset-0 bg-red-600 rounded-full blur-2xl opacity-40 animate-pulse"></div>
+                        <img src="vaibhavsurolia.jpg" alt="Alex Doe Portrait" class="relative rounded-full shadow-2xl border-4 border-red-500/50 object-cover w-full h-full">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    
+        <section id="about" class="py-20 md:py-32 scroll-animate">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">About Me</h2>
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="w-full md:w-1/3">
+                        <img src="vaibhavsurolia.jpg" alt="Alex Doe Portrait" class="rounded-full shadow-lg border-4 border-red-500 mx-auto">
+                    </div>
+                    <div class="w-full md:w-2/3 text-center md:text-left">
+                        <p class="text-lg md:text-xl leading-relaxed mb-4">
+                            Hello! I'm a passionate and creative web developer with a knack for building beautiful, functional, and user-centric websites. With a strong foundation in modern frontend and backend technologies, I thrive on turning complex problems into elegant digital solutions.
+                        </p>
+                        <p class="text-lg md:text-xl leading-relaxed mb-6">
+                            When I'm not coding, you can find me exploring the latest design trends, contributing to open-source projects, or enjoying a good cup of coffee. Let's create something amazing together!
+                        </p>
+                         <button id="ai-assistant-btn" class="inline-block bg-transparent border-2 border-red-500 text-red-500 font-bold py-3 px-8 rounded-full text-lg hover:bg-red-500 hover:text-white transition duration-300 transform hover:scale-105">
+                            ✨ Ask AI Assistant
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="skills" class="py-20 md:py-32 bg-gray-800 scroll-animate">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">My Tech Stack</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                    
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300">
+                        <img src="https://cdn.iconscout.com/icon/free/png-256/free-html-5-icon-svg-download-png-1175208.png?f=webp" alt="">
+                        <h3 class="text-xl font-semibold" style="margin-top: 40px">HTML5</h3>
+                    </div>
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300">
+                         <img src="https://cdn3d.iconscout.com/3d/free/thumb/free-css3-3d-icon-png-download-3640300.png" alt="">
+                        <h3 class="text-xl font-semibold" style="margin-top: 40px">CSS3</h3>
+                    </div>
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300">
+                         <img src="https://static.vecteezy.com/system/resources/previews/027/127/560/non_2x/javascript-logo-javascript-icon-transparent-free-png.png" alt="">
+                         <h3 class="text-xl font-semibold" style="margin-top: 40px">JavaScript</h3>
+                    </div>
+
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300">
+                         <img src="https://images.icon-icons.com/2415/PNG/512/react_original_wordmark_logo_icon_146375.png" alt="">
+                        <h3 class="text-xl font-semibold" style="margin-top: 40px" >React</h3>
+                    </div>
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300">
+                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2560px-Node.js_logo.svg.png" alt="">
+                        <h3 class="text-xl font-semibold" style="margin-top: 40px">Node.js</h3>
+                    </div>
+                    <div class="flex flex-col items-center p-6 bg-gray-900 rounded-lg shadow-lg transform hover:-translate-y-2 transition duration-300">
+                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2560px-Tailwind_CSS_Logo.svg.png" alt="">
+                        <h3 class="text-xl font-semibold" style="margin-top: 40px">TailwindCSS</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       
+        <section id="projects" class="py-20 md:py-32 scroll-animate">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Featured Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  
+                    <div class="project-card bg-gray-800 rounded-lg shadow-lg overflow-hidden relative group">
+                        <img src="Screenshot (5).png" alt="Project 1" class="w-full h-60 object-cover">
+                        <div class="project-overlay absolute inset-0 bg-black bg-opacity-70 opacity-0 transition-opacity duration-300 flex flex-col justify-center items-center p-6">
+                             <h3 class="text-2xl font-bold mb-2">DISHA-AI</h3>
+                             <p class="text-center mb-4">Your Personal AI-Powered Roadmap Generator</p>
+                             <a href="https://vaibhavsurolia.github.io/Disha-AI/" target="_blank" class="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700 transition duration-300">View Details</a>
+                        </div>
+                    </div>
+                  
+                    <div class="project-card bg-gray-800 rounded-lg shadow-lg overflow-hidden relative group">
+                        <img src="Screenshot (8).png" alt="Project 2" class="w-full h-60 object-cover">
+                        <div class="project-overlay absolute inset-0 bg-black bg-opacity-70 opacity-0 transition-opacity duration-300 flex flex-col justify-center items-center p-6">
+                             <h3 class="text-2xl font-bold mb-2">FussionCord</h3>
+                             <p class="text-center mb-4">IN PROGRESS...🤫</p>
+                             <a href="https://vaibhavsurolia.github.io/FussionCord/" target="_blank" class="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700 transition duration-300">View Details</a>
+                        </div>
+                    </div>
+                  
+                    <div class="project-card bg-gray-800 rounded-lg shadow-lg overflow-hidden relative group">
+                        <img src="https://placehold.co/600x400/ef4444/111827?text=..." alt="Project 3" class="w-full h-60 object-cover">
+                        <div class="project-overlay absolute inset-0 bg-black bg-opacity-70 opacity-0 transition-opacity duration-300 flex flex-col justify-center items-center p-6">
+                             <h3 class="text-2xl font-bold mb-2">Portfolio Website</h3>
+                             <p class="text-center mb-4">A personal portfolio that you are seeing right now!</p>
+                             <a href="#" class="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700 transition duration-300">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 md:py-32 bg-gray-800 scroll-animate">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
+                <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+                    I'm currently open to new opportunities and collaborations. If you have a project in mind or just want to say hi, feel free to reach out!
+                </p>
+                <a href="https://www.linkedin.com/in/vaibhav-surolia-b31954364/" target="_blank" class="inline-block bg-red-600 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-red-700 transition duration-300 transform hover:scale-105">
+                    Say Hello
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-6">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <p>&copy; 2025 Alex Doe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- AI Assistant Modal -->
+    <div id="ai-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 hidden opacity-0">
+        <div id="modal-content" class="modal-content bg-gray-800 rounded-lg shadow-2xl w-full max-w-2xl p-8 transform -translate-y-10 opacity-0">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold gradient-text">AI Professional Summary</h3>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+            </div>
+            <div id="ai-summary-content" class="text-lg leading-relaxed text-gray-300 min-h-[150px]">
+                Click the button below to generate a professional summary of my profile using Gemini. This showcases my ability to integrate modern AI into web applications.
+            </div>
+            <div id="ai-loading" class="hidden my-8 flex justify-center items-center">
+                <div class="spinner w-12 h-12 rounded-full border-4 border-gray-600"></div>
+            </div>
+            <div class="mt-8 text-center">
+                <button id="generate-summary-btn" class="bg-red-600 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-red-700 transition duration-300 transform hover:scale-105">
+                    ✨ Generate AI Summary
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Assistant -->
+    <div id="chat-widget-container" class="fixed bottom-8 right-8 z-40">
+        <!-- Chat Bubble -->
+        <div id="chat-bubble" class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center cursor-pointer shadow-lg transform hover:scale-110 transition-transform duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+        </div>
+
+        <!-- Chat Window -->
+        <div id="chat-window" class="hidden absolute bottom-20 right-0 w-80 md:w-96 h-[500px] bg-gray-800 rounded-lg shadow-2xl flex flex-col transition-all duration-300 opacity-0 transform translate-y-4">
+            <!-- Header -->
+            <div class="p-4 bg-gray-900 rounded-t-lg flex justify-between items-center">
+                <h3 class="text-lg font-bold gradient-text">AI Assistant</h3>
+                <button id="close-chat-btn" class="text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <!-- Messages -->
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto">
+                <!-- AI Welcome Message -->
+                <div class="mb-4">
+                    <div class="bg-red-600 text-white p-3 rounded-lg inline-block max-w-xs">
+                        Hello! How can I help you learn more about Vaibhav?
+                    </div>
+                </div>
+            </div>
+            <!-- Input -->
+            <div class="p-4 border-t border-gray-700">
+                <form id="chat-form" class="flex gap-2">
+                    <input type="text" id="chat-input" placeholder="Ask a question..." class="flex-1 bg-gray-700 border border-gray-600 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-red-500 text-white">
+                    <button type="submit" class="bg-red-600 text-white rounded-full p-3 hover:bg-red-700 transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Typing animation script
+            const typedTextSpan = document.getElementById('typed-text');
+            const textArray = ["amazing websites.", "scalable applications.", "beautiful experiences."];
+            const typingDelay = 100;
+            const erasingDelay = 50;
+            const newTextDelay = 2000; // Delay between current and next text
+            let textArrayIndex = 0;
+            let charIndex = 0;
+
+            function type() {
+                if (charIndex < textArray[textArrayIndex].length) {
+                    typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, typingDelay);
+                } else {
+                    setTimeout(erase, newTextDelay);
+                }
+            }
+
+            function erase() {
+                if (charIndex > 0) {
+                    typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(erase, erasingDelay);
+                } else {
+                    textArrayIndex++;
+                    if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+                    setTimeout(type, typingDelay + 1100);
+                }
+            }
+
+            // Scroll animation script
+            const scrollElements = document.querySelectorAll('.scroll-animate');
+
+            const elementInView = (el, dividend = 1) => {
+                const elementTop = el.getBoundingClientRect().top;
+                return (
+                    elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+                );
+            };
+
+            const displayScrollElement = (element) => {
+                element.classList.add('is-visible');
+            };
+
+            const hideScrollElement = (element) => {
+                element.classList.remove('is-visible');
+            };
+
+            const handleScrollAnimation = () => {
+                scrollElements.forEach((el) => {
+                    if (elementInView(el, 1.25)) {
+                        displayScrollElement(el);
+                    } else {
+                        // Optional: hide element when it goes out of view
+                        // hideScrollElement(el); 
+                    }
+                })
+            }
+
+            window.addEventListener('scroll', () => {
+                handleScrollAnimation();
+            });
+            
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            const toggleMenu = () => {
+                mobileMenu.classList.toggle('hidden');
+                // Toggling the icon
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenuButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>`;
+                } else {
+                     mobileMenuButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>`;
+                }
+            };
+            
+            mobileMenuButton.addEventListener('click', toggleMenu);
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // AI Assistant Modal Logic
+            const aiModal = document.getElementById('ai-modal');
+            const modalContent = document.getElementById('modal-content');
+            const openModalBtn = document.getElementById('ai-assistant-btn');
+            const heroOpenModalBtn = document.getElementById('hero-ai-btn');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const generateSummaryBtn = document.getElementById('generate-summary-btn');
+            const aiSummaryContent = document.getElementById('ai-summary-content');
+            const aiLoading = document.getElementById('ai-loading');
+
+            const openModal = () => {
+                aiModal.classList.remove('hidden');
+                setTimeout(() => {
+                    aiModal.classList.remove('opacity-0');
+                    modalContent.classList.remove('opacity-0', '-translate-y-10');
+                }, 10);
+            };
+
+            const closeModal = () => {
+                aiModal.classList.add('opacity-0');
+                modalContent.classList.add('opacity-0', '-translate-y-10');
+                setTimeout(() => {
+                    aiModal.classList.add('hidden');
+                    // Reset content
+                    aiSummaryContent.innerHTML = 'Click the button below to generate a professional summary of my profile using Gemini. This showcases my ability to integrate modern AI into web applications.';
+                    generateSummaryBtn.disabled = false;
+                }, 300);
+            };
+
+            openModalBtn.addEventListener('click', openModal);
+            heroOpenModalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal();
+            });
+            closeModalBtn.addEventListener('click', closeModal);
+            aiModal.addEventListener('click', (e) => {
+                if (e.target === aiModal) {
+                    closeModal();
+                }
+            });
+
+            generateSummaryBtn.addEventListener('click', async () => {
+                aiSummaryContent.style.display = 'none';
+                aiLoading.style.display = 'flex';
+                generateSummaryBtn.disabled = true;
+
+                // 1. Construct the prompt from portfolio content
+                const portfolioNameSpan = document.querySelector('#home h1 .gradient-text');
+                const portfolioName = portfolioNameSpan ? portfolioNameSpan.textContent.replace('.', '') : 'this developer';
+                
+                const aboutText = document.querySelector('#about p:nth-of-type(1)').textContent + ' ' + document.querySelector('#about p:nth-of-type(2)').textContent;
+                const skills = Array.from(document.querySelectorAll('#skills h3')).map(el => el.textContent).join(', ');
+                const projects = Array.from(document.querySelectorAll('.project-card h3')).map(el => el.textContent).join(', ');
+
+                const userQuery = `
+                    Here is the profile of a developer named ${portfolioName}:
+                    - About: ${aboutText}
+                    - Skills: ${skills}
+                    - Featured Projects: ${projects}
+                `;
+                
+                const systemPrompt = "Act as a professional career assistant and recruiter. Your task is to provide a concise, engaging summary of this developer's profile for a potential employer. Highlight their key skills and project experience in a professional and compelling tone. Address the summary directly to the reader (e.g., '[Name] is a developer who...'). Keep it to one paragraph.";
+
+                // 2. Call the Gemini API
+                try {
+                    const apiKey = "AIzaSyBG3RNaOjUHQmT6ene4-aw1ytVQNGWZRtc"; // API key will be injected by the environment
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: {
+                            parts: [{ text: systemPrompt }]
+                        },
+                    };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`API error: ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    const summary = result.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (summary) {
+                         aiSummaryContent.innerText = summary;
+                    } else {
+                         aiSummaryContent.innerText = "Sorry, the AI couldn't generate a summary at this time. Please try again later.";
+                    }
+
+                } catch (error) {
+                    console.error("Gemini API call failed:", error);
+                    aiSummaryContent.innerText = "An error occurred while contacting the AI assistant. Please check the console for details.";
+                } finally {
+                    aiLoading.style.display = 'none';
+                    aiSummaryContent.style.display = 'block';
+                }
+            });
+
+            // AI Chat Widget Logic
+            const chatBubble = document.getElementById('chat-bubble');
+            const chatWindow = document.getElementById('chat-window');
+            const closeChatBtn = document.getElementById('close-chat-btn');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatForm = document.getElementById('chat-form');
+            const chatInput = document.getElementById('chat-input');
+            
+            // Simulated backend data
+            const knowledgeBase = {
+                "Thanks": "You're welcome! It was nice chatting with you.",
+                "tell me about yourself": "Vaibhav Surolia is a passionate and creative web developer with a knack for building beautiful, functional, and user-centric websites. He thrives on turning complex problems into elegant digital solutions.",
+                "what are your skills": "Vaibhav's tech stack includes HTML5, CSS3, JavaScript, React, Node.js, and Tailwind CSS. He has a strong foundation in modern frontend and backend technologies.",
+                "what is your experience": "Vaibhav has experience building a variety of applications, including a full-stack E-Commerce Platform, a responsive Task Management App, and this personal portfolio you are currently viewing.",
+                "what projects have you worked on": "Vaibhav's featured projects include an E-Commerce Platform using the MERN stack, a modern Task Management App, and his own portfolio website.",
+                "how can i contact you": "You can get in touch by sending an email to 'email@example.com' via the 'Say Hello' button in the contact section.",
+                "hobbies": "When Vaibhav isn't coding, he enjoys exploring the latest design trends, contributing to open-source projects, and enjoying a good cup of coffee.",
+                "hello": "Hello! Ask me anything about Vaibhav's skills, experience, or projects."
+            };
+
+
+            const toggleChatWindow = () => {
+                if(chatWindow.classList.contains('hidden')){
+                    chatWindow.classList.remove('hidden');
+                    setTimeout(() => {
+                        chatWindow.classList.remove('opacity-0', 'translate-y-4');
+                    }, 10);
+                } else {
+                    chatWindow.classList.add('opacity-0', 'translate-y-4');
+                    setTimeout(() => {
+                        chatWindow.classList.add('hidden');
+                    }, 300);
+                }
+            };
+
+            const addMessage = (message, sender) => {
+                const messageWrapper = document.createElement('div');
+                messageWrapper.classList.add('mb-4', 'flex');
+
+                const messageBubble = document.createElement('div');
+                messageBubble.classList.add('p-3', 'rounded-lg', 'inline-block', 'max-w-xs');
+                messageBubble.innerText = message;
+
+                if (sender === 'user') {
+                    messageWrapper.classList.add('justify-end');
+                    messageBubble.classList.add('bg-gray-700', 'text-white');
+                } else {
+                    messageBubble.classList.add('bg-red-600', 'text-white');
+                }
+                
+                messageWrapper.appendChild(messageBubble);
+                chatMessages.appendChild(messageWrapper);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            };
+
+            const getAIResponse = (userInput) => {
+                const query = userInput.toLowerCase().trim();
+                let bestMatch = null;
+                let highestScore = 0;
+
+                // Simple keyword matching to find the most relevant answer
+                for (const key in knowledgeBase) {
+                    const keywords = key.split(' ');
+                    let score = 0;
+                    keywords.forEach(keyword => {
+                        if (query.includes(keyword)) {
+                            score++;
+                        }
+                    });
+                    if (score > highestScore) {
+                        highestScore = score;
+                        bestMatch = knowledgeBase[key];
+                    }
+                }
+
+                return bestMatch || "I'm sorry, I don't have that information. Please try asking about Alex's skills, projects, or experience.";
+            };
+
+            chatBubble.addEventListener('click', toggleChatWindow);
+            closeChatBtn.addEventListener('click', toggleChatWindow);
+
+            chatForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const userInput = chatInput.value;
+                if (!userInput) return;
+
+                addMessage(userInput, 'user');
+                chatInput.value = '';
+
+                // Simulate AI thinking
+                setTimeout(() => {
+                    const aiResponse = getAIResponse(userInput);
+                    addMessage(aiResponse, 'ai');
+                }, 1000);
+            });
+
+
+            // Initial calls
+            setTimeout(type, newTextDelay + 250);
+            handleScrollAnimation();
+        });
+    </script>
+
+</body>
+
+</html>
+
