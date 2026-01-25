@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollAnimations();
     initTypingEffect();
     initParallax();
+    initLiquidIndicator();
 });
 
 // ===== MOBILE MENU =====
@@ -229,3 +230,90 @@ window.addEventListener('resize', debounce(() => {
     // Handle responsive adjustments if needed
     console.log('Window resized');
 }, 250));
+
+// ===== LIQUID GLASS NAVIGATION INDICATOR =====
+function initLiquidIndicator() {
+    const indicator = document.querySelector('.nav-indicator');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('.section, .hero');
+
+    if (!indicator || navLinks.length === 0) return;
+
+    // Position indicator on active link
+    function updateIndicator(activeLink) {
+        const linkRect = activeLink.getBoundingClientRect();
+        const navRect = activeLink.closest('.nav-links').getBoundingClientRect();
+
+        const padding = 10; // Add padding around the text
+        const left = linkRect.left - navRect.left - padding;
+        const width = linkRect.width + (padding * 2);
+        const height = linkRect.height + (padding * 1.5);
+
+        indicator.style.left = `${left}px`;
+        indicator.style.width = `${width}px`;
+        indicator.style.height = `${height}px`;
+        indicator.style.top = `${-padding * 1.20}px`;
+    }
+
+    // Set initial position
+    const activeLink = document.querySelector('.nav-link.active');
+    if (activeLink) {
+        setTimeout(() => updateIndicator(activeLink), 100);
+    }
+
+    // Update on click
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            updateIndicator(link);
+        });
+    });
+
+    // Update based on scroll position
+    let ticking = false;
+
+    function updateActiveSection() {
+        let current = '';
+        const scrollY = window.pageYOffset;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 150;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+
+            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                current = sectionId;
+            }
+        });
+
+        if (current) {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                    updateIndicator(link);
+                }
+            });
+        }
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                updateActiveSection();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+
+    // Update on resize
+    window.addEventListener('resize', debounce(() => {
+        const activeLink = document.querySelector('.nav-link.active');
+        if (activeLink) {
+            updateIndicator(activeLink);
+        }
+    }, 250));
+}
+
