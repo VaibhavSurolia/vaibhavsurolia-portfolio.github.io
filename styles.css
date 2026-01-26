@@ -151,7 +151,8 @@ body {
 /* ===== NAVIGATION ===== */
 .navbar {
     position: fixed;
-    top: var(--spacing-md);
+    /* top: var(--spacing-md); */
+    top: 1rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
@@ -174,7 +175,7 @@ body {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: var(--radius-xl);
-    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.35s ease-out, width 0.35s ease-out, height 0.3s ease-out;
     pointer-events: none;
     z-index: -1;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);

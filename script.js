@@ -389,6 +389,8 @@ function initLiquidIndicator() {
 
     // Position indicator on active link
     function updateIndicator(activeLink) {
+        if (!activeLink) return;
+
         const linkRect = activeLink.getBoundingClientRect();
         const navRect = activeLink.closest('.nav-links').getBoundingClientRect();
 
@@ -397,10 +399,12 @@ function initLiquidIndicator() {
         const width = linkRect.width + (padding * 2);
         const height = linkRect.height + (padding * 1.5);
 
-        indicator.style.left = `${left}px`;
+        // Use transform for smoother animation
+        indicator.style.transform = `translateX(${left}px)`;
         indicator.style.width = `${width}px`;
         indicator.style.height = `${height}px`;
         indicator.style.top = `${-padding * 1.20}px`;
+        indicator.style.left = '0';
     }
 
     // Set initial position
@@ -410,11 +414,21 @@ function initLiquidIndicator() {
     }
 
     // Update on click
+    let isClickScrolling = false; // Flag to prevent scroll handler during click navigation
+
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
+            // Set flag to prevent scroll handler from updating indicator
+            isClickScrolling = true;
+
             navLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
             updateIndicator(link);
+
+            // Re-enable scroll handler after scroll completes
+            setTimeout(() => {
+                isClickScrolling = false;
+            }, 800); // Match smooth scroll duration
         });
     });
 
@@ -422,6 +436,9 @@ function initLiquidIndicator() {
     let ticking = false;
 
     function updateActiveSection() {
+        // Don't update if user just clicked a nav link
+        if (isClickScrolling) return;
+
         let current = '';
         const scrollY = window.pageYOffset;
 
