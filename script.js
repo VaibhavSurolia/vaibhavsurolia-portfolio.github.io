@@ -11,7 +11,155 @@ document.addEventListener('DOMContentLoaded', () => {
     initTypingEffect();
     initParallax();
     initLiquidIndicator();
+    fetchLeetCodeStats();
 });
+
+// ===== LEETCODE STATS =====
+async function fetchLeetCodeStats() {
+    const username = 'VaibhavSurolia';
+
+    // Try the primary API
+    try {
+        const response = await fetch(`https://leetcode-stats-api.herokuapp.com/${username}`);
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            updateLeetCodeUI(data);
+            return;
+        }
+    } catch (error) {
+        console.log('Primary API failed:', error);
+    }
+
+    // Fallback to static data if API fails
+    console.log('Using fallback data');
+    updateLeetCodeUI({
+        totalSolved: 31,
+        easySolved: 27,
+        mediumSolved: 4,
+        hardSolved: 0,
+        totalEasy: 922,
+        totalMedium: 1996,
+        totalHard: 903,
+        acceptanceRate: 53.42,
+        ranking: 3192336,
+        // Real submission calendar data from Jan 2026
+        submissionCalendar: {
+            "1769385600": 3,  // Jan 26
+            "1769299200": 1,  // Jan 25
+            "1769212800": 7,  // Jan 24
+            "1769126400": 2,  // Jan 23
+            "1769040000": 5   // Jan 22
+        }
+    });
+}
+
+function updateLeetCodeUI(data) {
+    // Safely update elements (check if they exist first)
+    const setTextContent = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    };
+
+    // Update Total Solved
+    setTextContent('lc-total', data.totalSolved);
+
+    // Update Ranking (format with commas)
+    setTextContent('lc-rank', formatNumber(data.ranking));
+
+    // Update Acceptance Rate
+    setTextContent('lc-acceptance', `${data.acceptanceRate}%`);
+
+    // Update difficulty breakdown
+    setTextContent('lc-easy', `${data.easySolved}/${data.totalEasy}`);
+    setTextContent('lc-medium', `${data.mediumSolved}/${data.totalMedium}`);
+    setTextContent('lc-hard', `${data.hardSolved}/${data.totalHard}`);
+
+    // Animate progress bars
+    setTimeout(() => {
+        const easyPercent = (data.easySolved / data.totalEasy) * 100;
+        const mediumPercent = (data.mediumSolved / data.totalMedium) * 100;
+        const hardPercent = (data.hardSolved / data.totalHard) * 100;
+
+        const setWidth = (id, percent) => {
+            const el = document.getElementById(id);
+            if (el) el.style.width = `${percent}%`;
+        };
+
+        setWidth('lc-easy-bar', easyPercent);
+        setWidth('lc-medium-bar', mediumPercent);
+        setWidth('lc-hard-bar', hardPercent);
+    }, 500);
+
+    // Calculate streak and today's submissions from calendar
+    const calendar = data.submissionCalendar || {};
+    const today = getTodayTimestamp();
+    const yesterday = today - 86400;
+
+    // Solved today
+    const solvedToday = calendar[today] || 0;
+    setTextContent('lc-today', solvedToday);
+
+    // Calculate streak
+    let streak = 0;
+    let checkDate = solvedToday > 0 ? today : yesterday;
+
+    while (calendar[checkDate] && calendar[checkDate] > 0) {
+        streak++;
+        checkDate -= 86400;
+    }
+
+    // Animate streak counter from 0 to final value
+    animateCounter('lc-streak', streak, 1500);
+    animateCounter('hero-streak', streak, 1500);
+}
+
+// Animate a number counting up from 0 to target value
+function animateCounter(elementId, targetValue, duration = 1000) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    const startTime = performance.now();
+    const startValue = 0;
+
+    function updateCounter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Less aggressive easing - easeOutQuad for smoother counting
+        const easeOutQuad = 1 - Math.pow(1 - progress, 2);
+
+        const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOutQuad);
+        element.textContent = currentValue;
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        } else {
+            element.textContent = targetValue; // Ensure exact final value
+            // Add golden glow animation on completion
+            element.classList.add('streak-glow');
+        }
+    }
+
+    requestAnimationFrame(updateCounter);
+}
+
+// Helper function to format large numbers
+function formatNumber(num) {
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+        return (num / 1000).toFixed(0) + 'K';
+    }
+    return num.toString();
+}
+
+// Get today's timestamp at midnight UTC
+function getTodayTimestamp() {
+    const now = new Date();
+    const utcMidnight = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+    return Math.floor(utcMidnight / 1000);
+}
 
 // ===== MOBILE MENU =====
 function initMobileMenu() {

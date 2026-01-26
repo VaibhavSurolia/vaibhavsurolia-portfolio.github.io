@@ -54,7 +54,14 @@
                     Passionate about building beautiful, functional, and user-centric digital experiences.
                     Turning complex problems into elegant solutions with modern web technologies.
                 </p>
-                <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <!-- LeetCode Streak Badge -->
+                <div class="leetcode-streak-badge glass"
+                    style="margin-top: 1.5rem; display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; border-radius: 2rem;">
+                    <span style="font-size: 1.5rem;">🔥</span>
+                    <span style="font-weight: 600;"><span id="hero-streak">--</span> Day LeetCode Streak</span>
+                </div>
+
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
                     <a href="#projects" class="btn btn-primary">View My Work</a>
                     <a href="#contact" class="btn btn-glass">Get In Touch</a>
                 </div>
@@ -117,6 +124,79 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2560px-Tailwind_CSS_Logo.svg.png"
                     alt="TailwindCSS">
                 <h3>TailwindCSS</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- LeetCode Stats Section -->
+    <section id="leetcode" class="section">
+        <h2 class="section-title gradient-text fade-in">LeetCode Stats</h2>
+        <div class="leetcode-container fade-in">
+            <!-- Streak Card -->
+            <div class="leetcode-card glass streak-card">
+                <div class="leetcode-icon">🔥</div>
+                <div class="leetcode-value" id="lc-streak">--</div>
+                <div class="leetcode-label">Day Streak</div>
+            </div>
+
+            <!-- Solved Today Card -->
+            <div class="leetcode-card glass today-card">
+                <div class="leetcode-icon">✅</div>
+                <div class="leetcode-value" id="lc-today">--</div>
+                <div class="leetcode-label">Solved Today</div>
+            </div>
+
+            <!-- Total Solved Card -->
+            <div class="leetcode-card glass total-card">
+                <div class="leetcode-icon">📊</div>
+                <div class="leetcode-value" id="lc-total">--</div>
+                <div class="leetcode-label">Total Solved</div>
+            </div>
+
+            <!-- Ranking Card -->
+            <div class="leetcode-card glass rank-card">
+                <div class="leetcode-icon">🏆</div>
+                <div class="leetcode-value" id="lc-rank">--</div>
+                <div class="leetcode-label">Global Rank</div>
+            </div>
+        </div>
+
+        <!-- Difficulty Breakdown -->
+        <div class="leetcode-breakdown glass fade-in">
+            <h3>Problem Breakdown</h3>
+            <div class="difficulty-bars">
+                <div class="difficulty-item">
+                    <div class="difficulty-header">
+                        <span class="difficulty-name easy">Easy</span>
+                        <span class="difficulty-count" id="lc-easy">--/--</span>
+                    </div>
+                    <div class="difficulty-bar">
+                        <div class="difficulty-progress easy-progress" id="lc-easy-bar"></div>
+                    </div>
+                </div>
+                <div class="difficulty-item">
+                    <div class="difficulty-header">
+                        <span class="difficulty-name medium">Medium</span>
+                        <span class="difficulty-count" id="lc-medium">--/--</span>
+                    </div>
+                    <div class="difficulty-bar">
+                        <div class="difficulty-progress medium-progress" id="lc-medium-bar"></div>
+                    </div>
+                </div>
+                <div class="difficulty-item">
+                    <div class="difficulty-header">
+                        <span class="difficulty-name hard">Hard</span>
+                        <span class="difficulty-count" id="lc-hard">--/--</span>
+                    </div>
+                    <div class="difficulty-bar">
+                        <div class="difficulty-progress hard-progress" id="lc-hard-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="leetcode-footer">
+                <span class="acceptance-rate">Acceptance Rate: <strong id="lc-acceptance">--%</strong></span>
+                <a href="https://leetcode.com/u/VaibhavSurolia/" target="_blank" class="btn btn-primary">View Profile
+                    →</a>
             </div>
         </div>
     </section>
