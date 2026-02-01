@@ -17,41 +17,82 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===== LEETCODE STATS =====
 async function fetchLeetCodeStats() {
     const username = 'VaibhavSurolia';
+    const baseURL = 'https://alfa-leetcode-api.onrender.com';
 
-    // Try the primary API
     try {
-        const response = await fetch(`https://leetcode-stats-api.herokuapp.com/${username}`);
-        const data = await response.json();
+        // Make parallel API calls to get all necessary data
+        const [solvedResponse, calendarResponse, profileResponse] = await Promise.all([
+            fetch(`${baseURL}/${username}/solved`),
+            fetch(`${baseURL}/${username}/calendar`),
+            fetch(`${baseURL}/${username}`)
+        ]);
 
-        if (data.status === 'success') {
-            updateLeetCodeUI(data);
-            return;
+        // Check if all responses are ok
+        if (!solvedResponse.ok || !calendarResponse.ok || !profileResponse.ok) {
+            throw new Error('API request failed');
         }
+
+        const solvedData = await solvedResponse.json();
+        const calendarData = await calendarResponse.json();
+        const profileData = await profileResponse.json();
+
+        // Parse submission calendar (it comes as a JSON string)
+        const submissionCalendar = JSON.parse(calendarData.submissionCalendar || '{}');
+
+        // Calculate acceptance rate from acSubmissionNum
+        const allSubmissions = solvedData.acSubmissionNum.find(item => item.difficulty === 'All');
+        const acceptanceRate = allSubmissions
+            ? ((allSubmissions.count / allSubmissions.submissions) * 100).toFixed(2)
+            : 0;
+
+        // Combine data into expected format
+        const combinedData = {
+            totalSolved: solvedData.solvedProblem,
+            easySolved: solvedData.easySolved,
+            mediumSolved: solvedData.mediumSolved,
+            hardSolved: solvedData.hardSolved,
+            totalEasy: 922,  // Hardcoded as API doesn't provide these
+            totalMedium: 1996,
+            totalHard: 903,
+            acceptanceRate: parseFloat(acceptanceRate),
+            ranking: profileData.ranking,
+            streak: calendarData.streak,
+            submissionCalendar: submissionCalendar
+        };
+
+        updateLeetCodeUI(combinedData);
+        return;
+
     } catch (error) {
-        console.log('Primary API failed:', error);
+        console.log('API failed:', error);
+        // Fallback to static data if API fails
+        console.log('Using fallback data');
+        updateLeetCodeUI({
+            totalSolved: 45,
+            easySolved: 36,
+            mediumSolved: 9,
+            hardSolved: 0,
+            totalEasy: 922,
+            totalMedium: 1996,
+            totalHard: 903,
+            acceptanceRate: 53.57,
+            ranking: 2565627,
+            streak: 11,
+            submissionCalendar: {
+                "1769817600": 7,
+                "1769731200": 4,
+                "1769644800": 8,
+                "1769558400": 8,
+                "1769472000": 8,
+                "1769385600": 4,
+                "1769299200": 1,
+                "1769212800": 7,
+                "1769126400": 2,
+                "1769040000": 5,
+                "1768867200": 2
+            }
+        });
     }
-
-    // Fallback to static data if API fails
-    console.log('Using fallback data');
-    updateLeetCodeUI({
-        totalSolved: 31,
-        easySolved: 27,
-        mediumSolved: 4,
-        hardSolved: 0,
-        totalEasy: 922,
-        totalMedium: 1996,
-        totalHard: 903,
-        acceptanceRate: 53.42,
-        ranking: 3192336,
-        // Real submission calendar data from Jan 2026
-        submissionCalendar: {
-            "1769385600": 3,  // Jan 26
-            "1769299200": 1,  // Jan 25
-            "1769212800": 7,  // Jan 24
-            "1769126400": 2,  // Jan 23
-            "1769040000": 5   // Jan 22
-        }
-    });
 }
 
 function updateLeetCodeUI(data) {
@@ -91,23 +132,16 @@ function updateLeetCodeUI(data) {
         setWidth('lc-hard-bar', hardPercent);
     }, 500);
 
-    // Calculate streak and today's submissions from calendar
+    // Get streak and today's submissions from calendar
     const calendar = data.submissionCalendar || {};
     const today = getTodayTimestamp();
-    const yesterday = today - 86400;
 
     // Solved today
     const solvedToday = calendar[today] || 0;
     setTextContent('lc-today', solvedToday);
 
-    // Calculate streak
-    let streak = 0;
-    let checkDate = solvedToday > 0 ? today : yesterday;
-
-    while (calendar[checkDate] && calendar[checkDate] > 0) {
-        streak++;
-        checkDate -= 86400;
-    }
+    // Use streak from API (more reliable than manual calculation)
+    const streak = data.streak || 0;
 
     // Animate streak counter from 0 to final value
     animateCounter('lc-streak', streak, 1500);
